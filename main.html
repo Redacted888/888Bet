@@ -368,3 +368,40 @@
       let contract = null;
 
       function setStatus(msg, isErr) {
+        statusEl.textContent = msg || "";
+        statusEl.className = "status" + (isErr ? " err" : "");
+      }
+
+      function setSpinStatus(msg, isErr) {
+        spinStatus.textContent = msg || "";
+        spinStatus.className = "status" + (isErr ? " err" : "");
+      }
+
+      function fmtEth(wei) {
+        if (wei === undefined || wei === null) return "—";
+        const v = Number(ethers.formatEther(wei));
+        if (v >= 1) return v.toFixed(2) + " ETH";
+        if (v >= 0.01) return v.toFixed(4) + " ETH";
+        return v.toFixed(6) + " ETH";
+      }
+
+      function shortAddr(addr) {
+        if (!addr) return "—";
+        return addr.slice(0, 6) + "…" + addr.slice(-4);
+      }
+
+      async function connect() {
+        if (!window.ethereum) {
+          setStatus("No wallet found. Install MetaMask or another Web3 wallet.", true);
+          return;
+        }
+        try {
+          provider = new ethers.BrowserProvider(window.ethereum);
+          const accounts = await provider.send("eth_requestAccounts", []);
+          if (!accounts.length) {
+            setStatus("No account selected.", true);
+            return;
+          }
+          signer = await provider.getSigner();
+          userAddress = accounts[0];
+          walletAddr.textContent = shortAddr(userAddress);
