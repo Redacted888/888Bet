@@ -479,3 +479,40 @@
         } catch (e) {
           totalSpins.textContent = "—";
           reserve.textContent = "—";
+          stakedPaid.textContent = "—";
+          pausedBanner.classList.add("hidden");
+        }
+      }
+
+      contractAddr.addEventListener("input", function () {
+        attachContract();
+        refreshHouse();
+        if (contract && userAddress) updatePendingClaim();
+      });
+
+      connectBtn.addEventListener("click", connect);
+
+      document.querySelectorAll(".quick-stakes [data-stake]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          stakeInput.value = btn.getAttribute("data-stake");
+        });
+      });
+
+      claimBtn.addEventListener("click", async function () {
+        if (!contract) return;
+        claimBtn.disabled = true;
+        setSpinStatus("Claiming…");
+        try {
+          const tx = await contract.claimPayout();
+          await tx.wait();
+          setSpinStatus("Claim successful.");
+          await updatePendingClaim();
+          await updateWalletBalance();
+          await refreshHouse();
+        } catch (e) {
+          setSpinStatus(e.message || "Claim failed", true);
+          await updatePendingClaim();
+        }
+      });
+
+      function showReelTier(tier) {
