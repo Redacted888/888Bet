@@ -405,3 +405,40 @@
           signer = await provider.getSigner();
           userAddress = accounts[0];
           walletAddr.textContent = shortAddr(userAddress);
+          walletCard.style.display = "block";
+          connectBtn.textContent = "Connected";
+          connectBtn.disabled = true;
+          setStatus("");
+          await updateWalletBalance();
+          attachContract();
+          await refreshHouse();
+          await updatePendingClaim();
+        } catch (e) {
+          setStatus(e.message || "Connection failed", true);
+        }
+      }
+
+      function attachContract() {
+        const addr = (contractAddr.value || "").trim();
+        if (!addr || !ethers.isAddress(addr)) {
+          contract = null;
+          spinBtn.disabled = true;
+          return;
+        }
+        if (signer) {
+          contract = new ethers.Contract(addr, ABI, signer);
+          spinBtn.disabled = !userAddress;
+        } else {
+          contract = null;
+          spinBtn.disabled = true;
+        }
+      }
+
+      async function updateWalletBalance() {
+        if (!provider || !userAddress) return;
+        try {
+          const bal = await provider.getBalance(userAddress);
+          walletBalance.textContent = fmtEth(bal);
+        } catch (_) {}
+      }
+
