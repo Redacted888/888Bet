@@ -183,3 +183,40 @@
 
     .quick-stakes .btn {
       padding: 0.4rem 0.7rem;
+      font-size: 0.8rem;
+    }
+
+    .reel-display {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 0;
+      background: var(--casino-bg);
+      border-radius: 8px;
+      border: 1px solid var(--casino-edge);
+    }
+
+    .reel-symbol {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      background: var(--casino-surface);
+      border: 2px solid var(--gold-dim);
+      border-radius: 8px;
+    }
+
+    .reel-symbol.tier-1 { color: #94a3b8; }
+    .reel-symbol.tier-2 { color: #f59e0b; }
+    .reel-symbol.tier-3 { color: var(--gold-bright); box-shadow: 0 0 12px rgba(212, 175, 55, 0.4); }
+
+    .last-result {
+      text-align: center;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
