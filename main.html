@@ -442,3 +442,40 @@
         } catch (_) {}
       }
 
+      async function updatePendingClaim() {
+        if (!contract || !userAddress) {
+          pendingClaim.textContent = "—";
+          claimBtn.disabled = true;
+          return;
+        }
+        try {
+          const amount = await contract.getPendingClaim(userAddress);
+          pendingClaim.textContent = fmtEth(amount);
+          claimBtn.disabled = amount === 0n;
+        } catch (_) {
+          pendingClaim.textContent = "—";
+          claimBtn.disabled = true;
+        }
+      }
+
+      async function refreshHouse() {
+        const addr = (contractAddr.value || "").trim();
+        if (!addr || !ethers.isAddress(addr)) {
+          totalSpins.textContent = "—";
+          reserve.textContent = "—";
+          stakedPaid.textContent = "—";
+          pausedBanner.classList.add("hidden");
+          return;
+        }
+        const c = new ethers.Contract(addr, ABI, provider || undefined);
+        try {
+          const [total, staked, paid, res] = await c.getHouseState();
+          totalSpins.textContent = total.toString();
+          reserve.textContent = fmtEth(res);
+          stakedPaid.textContent = fmtEth(staked) + " / " + fmtEth(paid);
+          const paused = await c.isPaused();
+          pausedBanner.classList.toggle("hidden", !paused);
+          spinBtn.disabled = paused || !userAddress;
+        } catch (e) {
+          totalSpins.textContent = "—";
+          reserve.textContent = "—";
