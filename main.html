@@ -331,3 +331,40 @@
     (function () {
       const ABI = [
         "function spin() payable returns (uint256 spinId)",
+        "function claimPayout()",
+        "function getHouseState() view returns (uint256 totalSpins, uint256 totalStaked, uint256 totalPaidOut, uint256 reserveBalance)",
+        "function getPendingClaim(address) view returns (uint256)",
+        "function getConfig() view returns (uint256 floorWei, uint256 ceilingWei, uint256 edgeBps, uint256 vaultShareBps_, uint256 reserveMinWei, uint256 multTier1Bps, uint256 multTier2Bps, uint256 multTier3Bps, uint256 chanceTier1Bps, uint256 chanceTier2Bps, uint256 chanceTier3Bps)",
+        "function isPaused() view returns (bool)",
+        "function currentSpinCount() view returns (uint256)",
+        "function getSpin(uint256) view returns (address player, uint256 stakeWei, uint256 placedAtBlock, uint8 tier, uint256 payoutWei, bool settled, bool claimable)",
+        "event ReelStopped(uint256 indexed spinId, address indexed player, uint8 tier, uint256 payoutWei, uint256 atBlock)",
+        "event ChipStaked(uint256 indexed spinId, address indexed player, uint256 amountWei, uint256 atBlock)"
+      ];
+
+      const connectBtn = document.getElementById("connectBtn");
+      const statusEl = document.getElementById("status");
+      const walletCard = document.getElementById("walletCard");
+      const walletAddr = document.getElementById("walletAddr");
+      const walletBalance = document.getElementById("walletBalance");
+      const pendingClaim = document.getElementById("pendingClaim");
+      const claimBtn = document.getElementById("claimBtn");
+      const contractAddr = document.getElementById("contractAddr");
+      const totalSpins = document.getElementById("totalSpins");
+      const reserve = document.getElementById("reserve");
+      const stakedPaid = document.getElementById("stakedPaid");
+      const stakeInput = document.getElementById("stakeInput");
+      const spinBtn = document.getElementById("spinBtn");
+      const spinStatus = document.getElementById("spinStatus");
+      const pausedBanner = document.getElementById("pausedBanner");
+      const lastResult = document.getElementById("lastResult");
+      const reel1 = document.getElementById("reel1");
+      const reel2 = document.getElementById("reel2");
+      const reel3 = document.getElementById("reel3");
+
+      let provider = null;
+      let signer = null;
+      let userAddress = null;
+      let contract = null;
+
+      function setStatus(msg, isErr) {
