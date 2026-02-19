@@ -516,3 +516,40 @@
       });
 
       function showReelTier(tier) {
+        reel1.className = reel2.className = reel3.className = "reel-symbol";
+        const sym = tier === 0 ? "0" : "8";
+        reel1.textContent = reel2.textContent = reel3.textContent = sym;
+        if (tier >= 1) reel1.classList.add("tier-" + tier);
+        if (tier >= 2) reel2.classList.add("tier-" + tier);
+        if (tier >= 3) reel3.classList.add("tier-" + tier);
+      }
+
+      spinBtn.addEventListener("click", async function () {
+        if (!contract || !userAddress) return;
+        const raw = (stakeInput.value || "").trim();
+        if (!raw) {
+          setSpinStatus("Enter stake amount.", true);
+          return;
+        }
+        let valueWei;
+        try {
+          valueWei = ethers.parseEther(raw);
+        } catch (_) {
+          setSpinStatus("Invalid amount.", true);
+          return;
+        }
+        spinBtn.disabled = true;
+        setSpinStatus("Spinning…");
+        lastResult.classList.add("hidden");
+        try {
+          const tx = await contract.spin({ value: valueWei });
+          const receipt = await tx.wait();
+          const iface = new ethers.Interface(ABI);
+          let tier = 0;
+          let payoutWei = 0n;
+          for (const log of receipt.logs) {
+            try {
+              const parsed = iface.parseLog({ topics: log.topics, data: log.data });
+              if (parsed && parsed.name === "ReelStopped") {
+                tier = Number(parsed.args[2]);
+                payoutWei = parsed.args[3];
