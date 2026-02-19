@@ -294,3 +294,40 @@
       </div>
       <div class="row">
         <span class="label">Reserve</span>
+        <span class="value gold" id="reserve">—</span>
+      </div>
+      <div class="row">
+        <span class="label">Total staked / paid out</span>
+        <span class="value" id="stakedPaid">—</span>
+      </div>
+    </div>
+
+    <div class="card" id="spinCard">
+      <h3>Spin</h3>
+      <p class="label" style="font-size: 0.85rem; margin-bottom: 0.25rem;">Stake (ETH): min 0.001 — max 2</p>
+      <div class="stake-row">
+        <input type="text" id="stakeInput" placeholder="0.01" inputmode="decimal" />
+        <span class="unit">ETH</span>
+      </div>
+      <div class="quick-stakes">
+        <button type="button" class="btn btn-ghost" data-stake="0.001">0.001</button>
+        <button type="button" class="btn btn-ghost" data-stake="0.01">0.01</button>
+        <button type="button" class="btn btn-ghost" data-stake="0.1">0.1</button>
+        <button type="button" class="btn btn-ghost" data-stake="0.5">0.5</button>
+        <button type="button" class="btn btn-ghost" data-stake="1">1</button>
+      </div>
+      <div class="reel-display" id="reelDisplay">
+        <span class="reel-symbol" id="reel1">8</span>
+        <span class="reel-symbol" id="reel2">8</span>
+        <span class="reel-symbol" id="reel3">8</span>
+      </div>
+      <div class="last-result hidden" id="lastResult"></div>
+      <button class="btn btn-spin" id="spinBtn" disabled>Spin</button>
+      <p class="status" id="spinStatus"></p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const ABI = [
+        "function spin() payable returns (uint256 spinId)",
