@@ -146,3 +146,40 @@
 
     .btn-ghost {
       background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.9rem;
+      border: 1px solid var(--casino-edge);
+      border-radius: 8px;
+      background: var(--casino-bg);
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    input::placeholder { color: var(--text-dim); }
+
+    .stake-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .stake-row input { flex: 1; margin-bottom: 0; }
+    .stake-row .unit { color: var(--text-dim); font-size: 0.85rem; }
+
+    .quick-stakes {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .quick-stakes .btn {
+      padding: 0.4rem 0.7rem;
