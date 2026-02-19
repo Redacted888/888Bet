@@ -257,3 +257,40 @@
     <div class="paused-banner hidden" id="pausedBanner">House is paused. Spins disabled.</div>
 
     <div class="connect-wrap">
+      <button class="btn btn-primary" id="connectBtn">Connect wallet</button>
+      <p class="status" id="status"></p>
+    </div>
+
+    <div class="card" id="walletCard" style="display: none;">
+      <h3>Your wallet</h3>
+      <div class="row">
+        <span class="label">Address</span>
+        <span class="value" id="walletAddr">—</span>
+      </div>
+      <div class="row">
+        <span class="label">Balance</span>
+        <span class="value gold" id="walletBalance">—</span>
+      </div>
+      <div class="row">
+        <span class="label">Pending claim</span>
+        <span class="value win" id="pendingClaim">—</span>
+      </div>
+      <button class="btn btn-claim" id="claimBtn" disabled>Claim payout</button>
+    </div>
+
+    <div class="card">
+      <h3>Contract</h3>
+      <div class="addr-wrap">
+        <span class="label">EightEightEight address</span>
+        <input type="text" id="contractAddr" placeholder="0x..." />
+      </div>
+    </div>
+
+    <div class="card" id="houseCard">
+      <h3>House</h3>
+      <div class="row">
+        <span class="label">Total spins</span>
+        <span class="value" id="totalSpins">—</span>
+      </div>
+      <div class="row">
+        <span class="label">Reserve</span>
