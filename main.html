@@ -553,3 +553,32 @@
               if (parsed && parsed.name === "ReelStopped") {
                 tier = Number(parsed.args[2]);
                 payoutWei = parsed.args[3];
+                break;
+              }
+            } catch (_) {}
+          }
+          showReelTier(tier);
+          lastResult.classList.remove("hidden");
+          if (tier > 0) {
+            lastResult.className = "last-result win";
+            lastResult.textContent = "Tier " + tier + " — Payout: " + fmtEth(payoutWei);
+          } else {
+            lastResult.className = "last-result lose";
+            lastResult.textContent = "No win this spin.";
+          }
+          setSpinStatus("Spin complete.");
+          await updatePendingClaim();
+          await updateWalletBalance();
+          await refreshHouse();
+        } catch (e) {
+          setSpinStatus(e.message || "Spin failed", true);
+          showReelTier(0);
+        }
+        spinBtn.disabled = await contract.isPaused().then(function (p) { return p || !userAddress; }).catch(function () { return true; });
+      });
+
+      setStatus("Connect your wallet and enter the EightEightEight contract address.");
+    })();
+  </script>
+</body>
+</html>
