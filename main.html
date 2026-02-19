@@ -109,3 +109,40 @@
     }
 
     .btn {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.65rem 1.4rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: filter 0.15s, transform 0.1s;
+    }
+
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn:not(:disabled):hover { filter: brightness(1.1); }
+    .btn:not(:disabled):active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dim) 100%);
+      color: #0d1f0d;
+    }
+
+    .btn-spin {
+      background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      padding: 0.9rem 2rem;
+      width: 100%;
+      margin-top: 0.75rem;
+    }
+
+    .btn-claim {
+      background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+      color: #fff;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .btn-ghost {
+      background: transparent;
